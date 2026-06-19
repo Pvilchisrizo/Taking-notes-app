@@ -1,0 +1,29 @@
+{
+  "name": "taking-notes-app",
+  "version": "1.0.0",
+  "description": "Note-taking application built with Node.js, Express.js and MongoDB.",
+  "homepage": "https://github.com/Pvilchisrizo/Note-taking-app#readme",
+  "bugs": {
+    "url": "https://github.com/Pvilchisrizo/Note-taking-app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pvilchisrizo/Note-taking-app.git"
+  },
+  "license": "ISC",
+  "author": "Paloma Vilchi Rizo",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.3.0",
+    "mongoose": "^9.7.1",
+    "passwordjs": "^0.1.1"
+  }
+}

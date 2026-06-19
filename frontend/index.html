@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NoteKeeper</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- AUTH SCREEN: shown when user is not logged in -->
+    <div id="auth-screen" class="screen">
+      <div class="auth-card">
+        <h1 class="logo">NoteKeeper</h1>
+
+        <div class="auth-tabs">
+          <button class="tab-btn active" onclick="switchTab('login')">
+            Log In
+          </button>
+          <button class="tab-btn" onclick="switchTab('register')">
+            Register
+          </button>
+        </div>
+
+        <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+          <input type="email" id="login-email" placeholder="Email" required />
+          <input
+            type="password"
+            id="login-password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit" class="btn-primary">Log In</button>
+        </form>
+
+        <form
+          id="register-form"
+          class="auth-form hidden"
+          onsubmit="handleRegister(event)"
+        >
+          <input
+            type="text"
+            id="reg-username"
+            placeholder="Username (min 3 chars)"
+            required
+          />
+          <input type="email" id="reg-email" placeholder="Email" required />
+          <input
+            type="password"
+            id="reg-password"
+            placeholder="Password (min 6 chars)"
+            required
+          />
+          <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+
+        <p id="auth-error" class="error-msg hidden"></p>
+      </div>
+    </div>
+
+    <!-- APP SCREEN: shown after login -->
+    <div id="app-screen" class="screen hidden">
+      <nav class="navbar">
+        <span class="logo">NoteKeeper</span>
+        <div class="nav-right">
+          <span id="welcome-msg"></span>
+          <button class="btn-ghost" onclick="openProfileModal()">Settings</button>
+          <button class="btn-ghost" onclick="logout()">Log Out</button>
+        </div>
+      </nav>
+
+      <main class="main-layout">
+        <aside class="sidebar">
+          <button class="btn-primary full-width" onclick="openModal()">
+            + New Note
+          </button>
+
+          <div class="filter-group">
+            <label>Category</label>
+            <select id="filter-category" onchange="renderNotes()">
+              <option value="all">All</option>
+              <option value="personal">Personal</option>
+              <option value="work">Work</option>
+              <option value="study">Study</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Search</label>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search notes..."
+              oninput="renderNotes()"
+            />
+          </div>
+        </aside>
+
+        <section class="notes-area">
+          <div id="notes-grid" class="notes-grid"></div>
+          <p id="empty-msg" class="empty-msg hidden">
+            No notes yet — create one!
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <!-- NOTE MODAL: reused for create and edit -->
+    <div
+      id="modal-overlay"
+      class="modal-overlay hidden"
+      onclick="closeModalOnOverlay(event)"
+    >
+      <div class="modal">
+        <h2 id="modal-title">New Note</h2>
+        <form id="note-form" onsubmit="handleNoteSubmit(event)">
+          <input
+            type="text"
+            id="note-title"
+            placeholder="Title"
+            required
+            maxlength="100"
+          />
+          <textarea
+            id="note-content"
+            placeholder="Write your note here..."
+            required
+            rows="6"
+          ></textarea>
+          <div class="form-row">
+            <select id="note-category">
+              <option value="other">Other</option>
+              <option value="personal">Personal</option>
+              <option value="work">Work</option>
+              <option value="study">Study</option>
+            </select>
+            <label class="pin-label">
+              <input type="checkbox" id="note-pinned" /> Pin note
+            </label>
+          </div>
+          <p id="note-error" class="error-msg hidden"></p>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" onclick="closeModal()">
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- PROFILE SETTINGS MODAL -->
+    <div
+      id="profile-overlay"
+      class="modal-overlay hidden"
+      onclick="closeProfileOnOverlay(event)"
+    >
+      <div class="modal">
+        <h2>Account Settings</h2>
+        <form id="profile-form" onsubmit="handleProfileSubmit(event)">
+          <label class="field-label">New Username (leave blank to keep current)</label>
+          <input
+            type="text"
+            id="profile-username"
+            placeholder="New username"
+            minlength="3"
+          />
+          <label class="field-label">New Password (leave blank to keep current)</label>
+          <input
+            type="password"
+            id="profile-new-password"
+            placeholder="New password (min 6 chars)"
+            minlength="6"
+          />
+          <hr class="divider" />
+          <label class="field-label">Current Password (required to save changes)</label>
+          <input
+            type="password"
+            id="profile-current-password"
+            placeholder="Current password"
+            required
+          />
+          <p id="profile-error" class="error-msg hidden"></p>
+          <p id="profile-success" class="success-msg hidden"></p>
+          <div class="modal-actions">
+            <button type="button" class="btn-ghost" onclick="closeProfileModal()">
+              Cancel
+            </button>
+            <button type="submit" class="btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
